@@ -1,0 +1,43 @@
+---
+title: "STA302 Final Project Proposal"
+subtitle: ""
+author: 
+  - name: "Ziqi Zhu"
+  - name: "Author 2"
+  - name: "Author 3"
+thanks: "Code and data are available at: https://github.com/zzq20010617/sta302Paper"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+date-format: long
+abstract: ""
+number-sections: true
+bibliography: proposal_references.bib
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+---
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+library(ggplot2)
+
+```
+
+# Introduction (350)
+
+
+# Data description (300)
+The R programming language (@talia) and ggplot2（@ggplot2）were used for processing the data.
+
+
+# Ethics discussion (100-200)
+
+# Preliminary results (300)
+
+\newpage
+
+# References
