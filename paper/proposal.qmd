@@ -24,15 +24,68 @@ format:
 #| message: false
 
 library(ggplot2)
-
+library(readr)
+library(tibble)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+data <- read.csv("../data/analysis_data/analysis_data.csv")
 ```
 
 # Introduction (350)
 
 
 # Data description (300)
-The R programming language (@talia) and ggplot2（@ggplot2）were used for processing the data.
+We get the Steam games data(@davis2023steam) from Kaggle. The R programming language (@talia) and packages readr(@readr), httr(@httr), jsonlite(@jsonlite) were used to download the data, dplyr(@dplyr) and lubridate(@lubridate) were used to clean the data. Data was originally gathered from the Steam Store and SteamSpy APIs around May 2019. This table @tbl-cle shows the first 3 entries of cleaned data. We are going to take average_playtime as the response variable, it measures the mean time (in minutes) that players spend on a game, a summary of this variable is shown in @tbl-aveplaytime. This variable captures overall player engagement and serves as a good indicator of how immerse or entertaining a game is. It is suitable for a linear regression model because it is continuous and quantitative. The predictors selected are price, positive ratings, negative ratings, developer, and number of owners. All are numeric except for the number of owners, which is categorical since it represents estimated ranges. Price may influence playtime, as higher costs could lead to longer engagement. Positive ratings and negative ratings are reviews of players of that game and it can only be positive or negative. Positive ratings likely correlate with greater playtime, while negative ratings could indicate the opposite. Developer refers to the development company of the game, which could affect playtime, with established studios often producing longer, high-quality games. Lastly, the number of owners is an estimated number of owners, containing lower and upper bounds (like 20000-50000), it could signal popularity, where more owners may suggest higher average playtime. Summary of numerical predictors can be find in table @tbl-predictor.
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: tbl-cle
+#| tbl-cap: "Steam Games Data"
 
+head(data, 3) %>% 
+  kbl("latex") %>%
+  kable_styling(latex_options = c("striped", "scale_down")) 
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: tbl-aveplaytime
+#| fig-pos: "H"
+
+summary_table <- data %>%
+  summarise(
+    Mean = round(mean(average_playtime, na.rm = TRUE), 2),
+    Median = round(median(average_playtime, na.rm = TRUE), 2),
+    Std_Dev = round(sd(average_playtime, na.rm = TRUE), 2),
+    Min = round(min(average_playtime, na.rm = TRUE), 2),
+    Max = round(max(average_playtime, na.rm = TRUE), 2),
+  )
+kable(summary_table, caption = "Summary of Average Playtime")
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| label: tbl-predictor
+
+predict_summary_table <- data %>%
+  summarise(
+    mean_price = round(mean(price, na.rm = TRUE), 2),
+    median_price = round(median(price, na.rm = TRUE), 2),
+    mean_positive_ratings = round(mean(positive_ratings, na.rm = TRUE), 2),
+    median_positive_ratings = round(median(positive_ratings, na.rm = TRUE), 2),
+    mean_negative_ratings = round(mean(negative_ratings, na.rm = TRUE), 2),
+    median_negative_ratings = round(median(negative_ratings, na.rm = TRUE), 2),
+  )
+kable(predict_summary_table, caption = "Summary of Predictors") %>%
+kable_styling(latex_options = c("striped", "scale_down"), font_size = 6) 
+```
 
 # Ethics discussion (100-200)
 

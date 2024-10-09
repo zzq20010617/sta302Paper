@@ -18,7 +18,7 @@ raw_data <- read_csv("data/raw_data/raw_data.csv")
 cleaned_data <-
   raw_data |> mutate(release_month = month(ymd(release_date),
                                            label = TRUE, abbr = TRUE)) %>% 
-  select(release_month, english, developer, publisher, required_age, achievements,
+  select(release_month, english, developer, publisher, achievements,
          positive_ratings, negative_ratings, average_playtime, median_playtime,
          owners, price) %>%
   filter(average_playtime != 0)
