@@ -88,7 +88,7 @@ kable_styling(latex_options = c("striped", "scale_down"), font_size = 6)
 ```
 
 # Ethics discussion (100-200)
-
+The Steam Games dataset used in this research is a collected dataset, not simulated, comprising information on over 97,000 games published on the Steam platform. The metadata is comprehensively filled out, including details such as game titles, release dates, genres, and user ratings, which enhances the dataset's usability and reliability. The source of the data is clearly described, originating from the Steam store pages and Steam API, ensuring transparency and traceability. Additionally, the dataset is hosted on Kaggle, a reputable platform for data science and machine learning, which implies a level of vetting and popularity within the data science community. This widespread use and accessibility suggest that the dataset is well-regarded and trusted by third parties, further validating its credibility for academic research.
 # Preliminary results (300)
 
 \newpage
