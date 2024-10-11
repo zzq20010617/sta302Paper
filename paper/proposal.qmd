@@ -24,6 +24,7 @@ format:
 #| message: false
 
 library(ggplot2)
+library(GGally)
 library(readr)
 library(tibble)
 library(knitr)
@@ -104,7 +105,23 @@ The Steam Games dataset(@davis2023steam) used in this research is a collected da
 
 model <- lm(average_playtime ~ price + positive_ratings + negative_ratings + developer + owners, data=data)
 ```
+## Create Response vs Fitted Scatterplot to check patterns in residuals before further analysis.
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+y_hat <- fitted(model)
+plot(x = y_hat, y = data$average_playtime, main = "Response vs. Fitted", xlab = "Fitted", ylab = "Average Playtime")
+abline(a=0, b=1, lty=2)
+```
+## Create Pairwise Scatterplots for Predictors to look for multicollinearity
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+ggpairs(data[, c(6, 7, 10, 11)])
 
+```
 ## Create Residuals vs Fitted Scatterplot to check Linearity, Uncorrelated Errors, and Constant Variance
 ```{r}
 #| echo: false
