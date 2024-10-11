@@ -95,6 +95,43 @@ kable_styling(latex_options = c("striped", "scale_down"), font_size = 6)
 The Steam Games dataset(@davis2023steam) used in this research is a collected dataset, not simulated, comprising information on over 97,000 games published on the Steam platform. The metadata is comprehensively filled out, including details such as game titles, release dates, genres, and user ratings, which enhances the dataset's usability and reliability. The source of the data is clearly described, originating from the Steam store pages and Steam API, ensuring transparency and traceability. Additionally, the dataset is hosted on Kaggle, a reputable platform for data science and machine learning, which implies a level of vetting and popularity within the data science community. This widespread use and accessibility suggest that the dataset is well-regarded and trusted by third parties, further validating its credibility. There are no ethical concerns to report.
 # Preliminary results (300)
 
+# Fit multiple linear regression model
+model <- lm(average_playtime ~ price + positive_ratings + negative_ratings + developer + owners)
+
+# Create Residuals vs Fitted Scatterplot to check Linearity, Uncorrelated Errors, and Constant Variance
+
+y_value <- resid(model)
+x_value <- fitted(model)
+
+plot(x = x_value, y = y_value, main = "Residual vs. Fitted", xlab = "Fitted", ylab = "Residuals")
+
+
+# Create Residuals vs each Quantitative Predictor scatterplot to check Linearity, Uncorrelated Errors, and Constant Variance
+
+par(mfrow=c(1,3))
+
+plot(x = data$price, y = y_value, main = "Residuals vs. Price", xlab = "Price", ylab = "Residuals")
+
+plot(x = data$positive_ratings, y = y_value, main = "Residuals vs. Positive Ratings", xlab = "Positive Ratings", ylab = "Residuals")
+
+plot(x = data$negative_ratings, y = y_value, main = "Residuals vs. Negative Ratings", xlab = "Negative Ratings", ylab = "Residuals")
+
+# Create BoxPlot to check assumptions for Categorical Predictors
+
+par(mfrow=c(1,2))
+
+boxplot(y_value ~ data$developer , main="Residual vs Developer",
+xlab="Developer", ylab="Residuals")
+
+boxplot(y_value ~ data$owners , main="Residual vs Owners",
+xlab="Owners", ylab="Residuals")
+
+# Create Normal QQ Plot to check Normality assumption
+
+qqnorm(y_value)
+qqline(y_value)
+
+
 \newpage
 
 # References
