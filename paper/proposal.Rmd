@@ -125,7 +125,10 @@ abline(a=0, b=1, lty=2)
 #| echo: false
 #| warning: false
 #| message: false
-ggpairs(data[, c(6, 7, 10, 11)])
+
+ggpairs(data[, c(6, 7, 11)]) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+        axis.text.y = element_text(size = 8))
 
 ```
 ## Create Residuals vs Fitted Scatterplot to check Linearity, Uncorrelated Errors, and Constant Variance
