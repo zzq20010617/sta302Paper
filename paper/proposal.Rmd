@@ -109,7 +109,7 @@ The Steam Games dataset(@davis2023steam) used in this research is a collected da
 #| warning: false
 #| message: false
 
-model <- lm(average_playtime ~ price + positive_ratings + negative_ratings + developer + owners, data=data)
+model <- lm(average_playtime ~ price + positive_ratings + negative_ratings + achievements + owners, data=data)
 ```
 ## Create Response vs Fitted Scatterplot to check patterns in residuals before further analysis.
 ```{r}
@@ -126,7 +126,7 @@ abline(a=0, b=1, lty=2)
 #| warning: false
 #| message: false
 
-ggpairs(data[, c(6, 7, 11)]) +
+ggpairs(data[, c(5, 6, 7, 11)]) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
         axis.text.y = element_text(size = 8))
 
@@ -147,13 +147,15 @@ plot(x = x_value, y = y_value, main = "Residual vs. Fitted", xlab = "Fitted", yl
 #| echo: false
 #| warning: false
 #| message: false
-par(mfrow=c(1,3))
+par(mfrow=c(1,4))
 
 plot(x = data$price, y = y_value, main = "Residuals vs. Price", xlab = "Price", ylab = "Residuals")
 
 plot(x = data$positive_ratings, y = y_value, main = "Residuals vs. Positive Ratings", xlab = "Positive Ratings", ylab = "Residuals")
 
 plot(x = data$negative_ratings, y = y_value, main = "Residuals vs. Negative Ratings", xlab = "Negative Ratings", ylab = "Residuals")
+
+plot(x = data$achievements, y = y_value, main = "Residuals vs. Achievements", xlab = "Achievements", ylab = "Residuals")
 ```
 ## Create BoxPlot to check assumptions for Categorical Predictors
 ```{r}
@@ -176,7 +178,82 @@ xlab="Owners", ylab="Residuals")
 qqnorm(y_value)
 qqline(y_value)
 ```
-The four linear regression assumptions to be looked into are linearity, uncorrelated errors, constant error variance, and normality. Since this is a multiple linear regression, we must also check the conditional mean response and predictor conditions. To check the conditional mean response condition, we look at the Response vs. Fitted scatterplot. We see an that the data points are clustered fairly tightly in the bottom left corner of the scatterplot, which satisfies the condition. To check the conditional mean predictors assumption, we must look at the pairwise scatterplots of predictors, in which we see a lack of curves which satisfies this condition as well. When looing at the Residual vs. Fitted scatterplot, we can see a fanning pattern in the shape of a left pointing arrow, which leads to a possible violation of the constant variance assumption. Looking at the Residuals vs. Qualitative Predictor scatterplots suggests a possible violation of both linearity and uncorrelated errors due to the cluster of many points in all three as well as the curves that exist in the positive and negative ratings. Neither of the boxplots appear to suggest any kind of linear assumption violation regarding the categorical predictors. Looking at the Normal QQ Plot, there is some deviation from the diagonal at the extremes that appears to be too significant to ignore. This leads to a normality violation. There being so many possible assumption violations makes sense due to the nature of the data. For example, the violation of the uncorrelated errors assumption is valid because the predictors would depend on one another if even slightly (i.e. price and developer). The results of this preliminary model are fairly similar to the results in the literature as similar errors and violated assumptions were noted. Transformations in order to mitigate these violations will be vital to maintain the stability of the normal model.
+## Box-Cox Transformation
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+library(MASS)
+library(caret)
+
+# Define the Box-Cox transformation function
+boxcox_transform <- function(x) {
+  bc <- BoxCoxTrans(x)
+  predict(bc, x)
+}
+
+# Apply the transformation to each predictor and the response
+bc_average_playtime <- boxcox_transform(data$average_playtime)
+bc_price <- boxcox_transform(data$price)
+bc_positive_ratings <- boxcox_transform(data$positive_ratings)
+bc_negative_ratings <- boxcox_transform(data$negative_ratings)
+bc_achievements <- boxcox_transform(data$achievements)
+```
+## Fitting transformed model
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+model_transformed <- lm(bc_average_playtime ~ bc_price + bc_positive_ratings + bc_achievements+ bc_negative_ratings + owners, data=data)
+```
+## Checking for Multicollinearity
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+# install.packages("car")
+library(car)
+vif(model_transformed)
+```
+## Fitting Reduced Model
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+reduced <- lm(bc_average_playtime ~ bc_price + bc_positive_ratings + bc_achievements + owners, data=data)
+summary(reduced)
+```
+## Generatingn Residual Plots
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+par(mfrow = c(2, 2))
+plot(reduced)
+```
+## AIC Model Selection
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+step_model <- stepAIC(reduced, direction = "both")
+summary(step_model)
+```
+## ANOVA Comparison between full model and reduced model
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+anova(step_model, reduced)
+# Conclude that step_model (without bc_achievements is better suited and no significant improvement to model from bc_achievements)
+```
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+summary(step_model)
+```
+The four linear regression assumptions to be looked into are linearity, uncorrelated errors, constant error variance, and normality. Since this is a multiple linear regression, we must also check the conditional mean response and predictor conditions. To check the conditional mean response condition, we look at the Response vs. Fitted scatterplot. We see an that the data points are clustered fairly tightly in the bottom left corner of the scatterplot, which satisfies the condition. To check the conditional mean predictors assumption, we must look at the pairwise scatterplots of predictors, in which we see a lack of curves which satisfies this condition as well. When looking at the Residual vs. Fitted scatterplot, we can see a fanning pattern in the shape of a left pointing arrow, which leads to a possible violation of the constant variance assumption. Looking at the Residuals vs. Qualitative Predictor scatterplots suggests a possible violation of both linearity and uncorrelated errors due to the cluster of many points in all three as well as the curves that exist in the positive and negative ratings. Neither of the boxplots appear to suggest any kind of linear assumption violation regarding the categorical predictors. Looking at the Normal QQ Plot, there is some deviation from the diagonal at the extremes that appears to be too significant to ignore. This leads to a normality violation. There being so many possible assumption violations makes sense due to the nature of the data. For example, the violation of the uncorrelated errors assumption is valid because the predictors would depend on one another if even slightly (i.e. price and developer). The results of this preliminary model are fairly similar to the results in the literature as similar errors and violated assumptions were noted. Transformations in order to mitigate these violations will be vital to maintain the stability of the normal model.
 \newpage
 
 # References
