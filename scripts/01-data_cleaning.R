@@ -13,7 +13,7 @@ library(readr)
 
 #### Clean data ####
 # Read the raw data
-raw_data <- read_csv("data/raw_data/raw_data.csv")
+raw_data <- read_csv(here::here("data/raw_data/raw_data.csv"))
 
 # Clean and transform the data
 cleaned_data <- raw_data %>%

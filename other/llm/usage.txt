@@ -121,3 +121,71 @@ summary_table %>%
   gt() %>%
   tab_header(title = "Summary of Average Playtime")
 This will format the summary of the response variable into a clean, readable table for your output.
+
+You said:
+I get object 'bc_average_playtime' not found for code step_model <- stepAIC(reduced, direction = "both")
+summary(step_model) the reduced model is load by reduced <- readRDS(file = here::here("models/model_bc_reduced.rds"))
+summary(reduced) what is the problem
+ChatGPT said:
+ChatGPT
+The error object 'bc_average_playtime' not found typically occurs because the reduced model, loaded from readRDS, might reference transformed variables (bc_average_playtime and others) that do not exist in the current environment.
+
+Here’s how to address this issue:
+
+1. Understand the Problem
+When the reduced model was created, it likely used a dataset that included bc_average_playtime (and other transformed variables such as bc_price, bc_positive_ratings, etc.).
+After saving the model (saveRDS), the variables used in the model formula are not saved within the model object. They are referenced from the original dataset when running stepAIC() or summary().
+If these variables are not present in your current dataset (data or analysis_data), R cannot find them, leading to the error.
+
+2. Solution: Ensure Transformed Variables Exist
+You need to recreate the transformed variables in your current dataset before working with the loaded model:
+r
+Copy code
+# Recreate Box-Cox transformed variables
+library(caret)
+boxcox_transform <- function(x) {
+  bc <- BoxCoxTrans(x)
+  predict(bc, x)
+}
+
+# Apply transformations to the relevant variables
+analysis_data$bc_average_playtime <- boxcox_transform(analysis_data$average_playtime)
+analysis_data$bc_price <- boxcox_transform(analysis_data$price)
+analysis_data$bc_positive_ratings <- boxcox_transform(analysis_data$positive_ratings)
+analysis_data$bc_negative_ratings <- boxcox_transform(analysis_data$negative_ratings)
+analysis_data$bc_achievements <- boxcox_transform(analysis_data$achievements)
+3. Ensure the Dataset Matches the Model
+Check the formula of the reduced model to verify the exact names of the variables it uses:
+r
+Copy code
+formula(reduced)
+Ensure all variables in the formula exist in your dataset (analysis_data).
+4. Re-run the Stepwise Selection
+Now you can safely run stepAIC and summary on the reduced model:
+
+r
+Copy code
+library(MASS)
+
+# Perform stepwise model selection
+step_model <- stepAIC(reduced, direction = "both")
+
+# View summary of the stepwise-selected model
+summary(step_model)
+5. Alternative: Load the Full Dataset
+If the transformed variables were created in a dataset you saved previously, ensure you load that dataset into your environment.
+
+r
+Copy code
+# Load the dataset used when creating the reduced model
+analysis_data <- readRDS(file = here::here("data/analysis_data_with_transformations.rds"))
+6. Verify the Model with model.frame
+To debug, you can use model.frame to see if the necessary data for the model is accessible:
+
+r
+Copy code
+model.frame(reduced)
+If model.frame throws an error, it confirms the required variables are missing.
+
+Recap
+The issue occurs because the variables used in the model formula (bc_average_playtime, etc.) do not exist in your current environment. Recreate the transformed variables, ensure your dataset matches the model, or load the full dataset used when the model was built. This should resolve the issue.
