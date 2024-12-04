@@ -16,6 +16,9 @@ format:
     toc: true
     number-sections: true
     colorlinks: true
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r}
@@ -46,25 +49,88 @@ data <- read.csv(here::here("data/analysis_data/analysis_data.csv"))
 ```
 
 # Contributions
-We found the dataset together, and seperate the works as follow:
-Ziqi: Introduction and data description
-Raghav: Ethics discussion and some plot in preliminary result
-Christophe: Most of Preliminary results section
+
+We found the dataset together, and seperate the works as follow: Ziqi:
+Introduction and data description Raghav: Ethics discussion and some
+plot in preliminary result Christophe: Most of Preliminary results
+section
 
 # Introduction
-The gaming industry has experienced exponential growth in recent years, with millions of players engaging in various games on platforms like Steam. Understanding what influences average playtime in games is crucial for game developers, publishers, and marketers. Average playtime is a key indicator of player engagement and game success, and investigating factors that impact it can provide valuable insights into game design, pricing strategies, and marketing efforts. So our research aims to explore the factors that influence the average playtime of games available on Steam using a dataset we get from Kaggle. Specifically, we will investigate how variables such as price, user ratings, and other game characteristics contribute to player engagement, as measured by playtime.
-From some previous papers, we learned that both positive and negative reviews have a significant correlation with playtime, but the effect is more pronounced for positive reviews [@paper1]. Another paper found out that game pricing significantly affects player engagement, with lower-priced games generally seeing higher playtime [@paper2]. The third paper did an empirical study that also examined the influence of game reviews on playtime, focusing on how the number and sentiment of reviews can affect player engagement. It concludes that games with more positive reviews see increased playtime, especially if those reviews highlight the game’s quality [@paper3].
-We found this problem suitable for linear regression because it allows us to model the relationship between average playtime (the dependent variable) and various predictors (price, ratings, developer, etc.). This approach helps quantify how each factor influences playtime, enabling a clear understanding of the impact of different game attributes. By fitting a linear regression model, we can determine which factors have statistically significant effects on playtime, providing actionable insights for game developers and marketers.
+
+The gaming industry has experienced exponential growth in recent years,
+with millions of players engaging in various games on platforms like
+Steam. Understanding what influences average playtime in games is
+crucial for game developers, publishers, and marketers. Average playtime
+is a key indicator of player engagement and game success, and
+investigating factors that impact it can provide valuable insights into
+game design, pricing strategies, and marketing efforts. So our research
+aims to explore the factors that influence the average playtime of games
+available on Steam using a dataset we get from Kaggle. Specifically, we
+will investigate how variables such as price, user ratings, and other
+game characteristics contribute to player engagement, as measured by
+playtime. From some previous papers, we learned that both positive and
+negative reviews have a significant correlation with playtime, but the
+effect is more pronounced for positive reviews [@paper1]. Another paper
+found out that game pricing significantly affects player engagement,
+with lower-priced games generally seeing higher playtime [@paper2]. The
+third paper did an empirical study that also examined the influence of
+game reviews on playtime, focusing on how the number and sentiment of
+reviews can affect player engagement. It concludes that games with more
+positive reviews see increased playtime, especially if those reviews
+highlight the game’s quality [@paper3]. We found this problem suitable
+for linear regression because it allows us to model the relationship
+between average playtime (the dependent variable) and various predictors
+(price, ratings, developer, etc.). This approach helps quantify how each
+factor influences playtime, enabling a clear understanding of the impact
+of different game attributes. By fitting a linear regression model, we
+can determine which factors have statistically significant effects on
+playtime, providing actionable insights for game developers and
+marketers.
 
 # Methods
 
-To develop and refine the final model for predicting average playtime, a structured approach was employed that combined diagnostic assessments, transformations, and model selection techniques. The analysis began with data preparation and selection of relevant predictors based on domain knowledge and preliminary exploration. A multiple linear regression model was initially fitted using predictors including price, positive ratings, negative ratings, number of achievements as numeric variables, and ownership levels as categorical variable.
+To develop and refine the final model for predicting average playtime, a
+structured approach was employed that combined diagnostic assessments,
+transformations, and model selection techniques. The analysis began with
+data preparation and selection of relevant predictors based on domain
+knowledge and preliminary exploration. A multiple linear regression
+model was initially fitted using predictors including price, positive
+ratings, negative ratings, number of achievements as numeric variables,
+and ownership levels as categorical variable.
 
-Preliminary model diagnostics, since we are using MLR model, we first need to check conditional mean condition with both response and predictors, including response vs. fitted plots and pairwise plots between predictors. Then residuals vs. fitted plots were used to assess the assumptions of linearity, constant-variance, and uncorrelated errors. While Normal Quantile-Quantile (QQ) plot is used to check for normality. To address violations of these assumptions, Box-Cox transformations were applied to the response variable and select predictors to make the most suited transform function based on their $\lambda$. Then pairwise scatterplots and the Variance Inflation Factor (VIF) were used to check for multicollinearity, and highly correlated variables were removed or adjusted to improve the model's stability.
+Preliminary model diagnostics, since we are using MLR model, we first
+need to check conditional mean condition with both response and
+predictors, including response vs. fitted plots and pairwise plots
+between predictors. Then residuals vs. fitted plots were used to assess
+the assumptions of linearity, constant-variance, and uncorrelated
+errors. While Normal Quantile-Quantile (QQ) plot is used to check for
+normality. To address violations of these assumptions, Box-Cox
+transformations were applied to the response variable and select
+predictors to make the most suited transform function based on their
+$\lambda$. Then pairwise scatterplots and the Variance Inflation Factor
+(VIF) were used to check for multicollinearity, and highly correlated
+variables were removed or adjusted to improve the model's stability.
 
-Refinement of the model was carried out through stepwise selection using AIC (Akaike Information Criterion) to identify the best combination of predictors while balancing model complexity and fit. ANOVA tests were used to compare nested models and evaluate whether reductions in predictors led to significant changes in explanatory power. The final model was validated using diagnostic plots to confirm adherence to linear regression assumptions, ensuring that it was suitable for interpretation and prediction.
+Refinement of the model was carried out through stepwise selection using
+AIC (Akaike Information Criterion) to identify the best combination of
+predictors while balancing model complexity and fit. ANOVA tests were
+used to compare nested models and evaluate whether reductions in
+predictors led to significant changes in explanatory power. The final
+model was validated using diagnostic plots to confirm adherence to
+linear regression assumptions, ensuring that it was suitable for
+interpretation and prediction.
 
-The methodology was implemented in programming language **R** [@citeR]. Packages **readr** [@readr], **httr** [@httr], **jsonlite** [@jsonlite] were used to download the data, **dplyr** [@dplyr] and **lubridate** [@lubridate] were used to clean the data. The diagnostic process is done with help of **ggplot2** [@ggplot2] for residual graphs, **GGally** [@GGally] and **car** [@car] for multicollinearity checks, **MASS** [@MASS] for stepwise selection, **caret** [@caret] is used to perform box-cox transform on variables. This systematic approach ensured that each decision was guided by statistical evidence and diagnostic tools, allowing for the development of a robust final model. A simplified version of the methodology flowchart is presented in @fig-flowchart.
+The methodology was implemented in programming language **R** [@citeR].
+Packages **readr** [@readr], **httr** [@httr], **jsonlite** [@jsonlite]
+were used to download the data, **dplyr** [@dplyr] and **lubridate**
+[@lubridate] were used to clean the data. The diagnostic process is done
+with help of **ggplot2** [@ggplot2] for residual graphs, **GGally**
+[@GGally] and **car** [@car] for multicollinearity checks, **MASS**
+[@MASS] for stepwise selection, **caret** [@caret] is used to perform
+box-cox transform on variables. This systematic approach ensured that
+each decision was guided by statistical evidence and diagnostic tools,
+allowing for the development of a robust final model. A simplified
+version of the methodology flowchart is presented in @fig-flowchart.
 
 ```{r}
 #| warning: false
@@ -79,6 +145,7 @@ include_graphics(here::here("other/flowchart.png"))
 ```
 
 <!-- ## Fit multiple linear regression model -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -88,10 +155,18 @@ include_graphics(here::here("other/flowchart.png"))
 # negative_ratings + achievements + owners, data=analysis_data)
 model_1 <- readRDS(file = here::here("models/model_1.rds"))
 ```
+
 # Results
 
-At the starting point, our baseline model uses `average_playtime` as the response variable, with `price`, `positive_ratings`, `negative_ratings`, `achievements`, and `owners` as predictors. The four key linear regression assumptions considered are linearity, uncorrelated errors, constant error variance, and normality. Additionally, since this is a multiple linear regression model, we also examine the conditional mean response and predictor assumptions.
+At the starting point, our baseline model uses `average_playtime` as the
+response variable, with `price`, `positive_ratings`, `negative_ratings`,
+`achievements`, and `owners` as predictors. The four key linear
+regression assumptions considered are linearity, uncorrelated errors,
+constant error variance, and normality. Additionally, since this is a
+multiple linear regression model, we also examine the conditional mean
+response and predictor assumptions.
 <!-- ## Create Response vs Fitted Scatterplot to check patterns in residuals before further analysis. -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -104,11 +179,29 @@ y_hat <- fitted(model_1)
 plot(x = y_hat, y = data$average_playtime, main = "Response vs. Fitted", xlab = "Fitted", ylab = "Average Playtime")
 abline(a=0, b=1, lty=2)
 ```
-To check the conditional mean response assumption, we analyze the Response vs. Fitted scatterplot @fig-resp-fit. The data points are tightly clustered in the bottom-left corner, which satisfies this assumption. The fitted line generally follows the line $y=\hat{y}$, but there are notable outliers along the Y-axis where the observed `average_playtime` deviates significantly from the predicted values. These extreme outliers suggest that the response variable may be highly skewed or contain problematic data points.
 
-To check the conditional mean predictor assumption, we examine the pairwise scatterplots of predictors @fig-pairwise. A lack of curves in all pairs of plots indicates that this assumption is satisfied. However, the Residuals vs. Fitted scatterplot @fig-resfit shows a fanning pattern resembling a left-pointing arrow, which suggests a potential violation of the constant variance assumption. Additionally, the Residuals vs. Qualitative Predictor scatterplots @fig-respre indicate possible violations of linearity and uncorrelated errors due to clusters of points and curves in the `positive_ratings` and `negative_ratings` predictors.
+To check the conditional mean response assumption, we analyze the
+Response vs. Fitted scatterplot @fig-resp-fit. The data points are
+tightly clustered in the bottom-left corner, which satisfies this
+assumption. The fitted line generally follows the line $y=\hat{y}$, but
+there are notable outliers along the Y-axis where the observed
+`average_playtime` deviates significantly from the predicted values.
+These extreme outliers suggest that the response variable may be highly
+skewed or contain problematic data points.
+
+To check the conditional mean predictor assumption, we examine the
+pairwise scatterplots of predictors @fig-pairwise. A lack of curves in
+all pairs of plots indicates that this assumption is satisfied. However,
+the Residuals vs. Fitted scatterplot @fig-resfit shows a fanning pattern
+resembling a left-pointing arrow, which suggests a potential violation
+of the constant variance assumption. Additionally, the Residuals vs.
+Qualitative Predictor scatterplots @fig-respre indicate possible
+violations of linearity and uncorrelated errors due to clusters of
+points and curves in the `positive_ratings` and `negative_ratings`
+predictors.
 
 <!-- ## Create Pairwise Scatterplots for Predictors to look for multicollinearity -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -123,6 +216,7 @@ ggpairs(data[, c(5, 6, 7, 11)]) +
 ```
 
 <!-- ## Create Residuals vs Fitted Scatterplot to check Linearity, Uncorrelated Errors, and Constant Variance -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -138,11 +232,24 @@ plot(x = x_value, y = y_value, main = "Residual vs. Fitted", xlab = "Fitted", yl
 abline(h = 0, col = "red", lty = 2)
 ```
 
-Boxplots were used to assess linearity violations in the categorical predictor `owners`, and no issues were detected  @sec-model-detail. However, the Normal QQ Plot @fig-qq reveals significant deviations from the diagonal at the extremes, indicating a violation of the normality assumption.
+Boxplots were used to assess linearity violations in the categorical
+predictor `owners`, and no issues were detected @sec-model-detail.
+However, the Normal QQ Plot @fig-qq reveals significant deviations from
+the diagonal at the extremes, indicating a violation of the normality
+assumption.
 
-The presence of these assumption violations aligns with the nature of the data, as confirmed by the outlier analysis in appendix @sec-outlier, which identifies several influential points even in the final model. For instance, the uncorrelated errors assumption may be violated because some predictors are inherently related (e.g., price and developer). These findings are consistent with those in the literature, where similar violations and errors have been reported. Addressing these violations through transformations is critical to ensure the stability of the model.
+The presence of these assumption violations aligns with the nature of
+the data, as confirmed by the outlier analysis in appendix @sec-outlier,
+which identifies several influential points even in the final model. For
+instance, the uncorrelated errors assumption may be violated because
+some predictors are inherently related (e.g., price and developer).
+These findings are consistent with those in the literature, where
+similar violations and errors have been reported. Addressing these
+violations through transformations is critical to ensure the stability
+of the model.
 
 <!-- ## Create Normal QQ Plot to check Normality assumption -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -153,7 +260,9 @@ The presence of these assumption violations aligns with the nature of the data, 
 qqnorm(y_value)
 qqline(y_value)
 ```
+
 <!-- ## Box-Cox Transformation -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -177,7 +286,9 @@ bc_negative_ratings <- boxcox_transform(data$negative_ratings)
 bc_achievements <- boxcox_transform(data$achievements)
 
 ```
+
 <!-- ## Fitting transformed model -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -187,11 +298,29 @@ bc_achievements <- boxcox_transform(data$achievements)
 model_transformed <- readRDS(file = here::here("models/model_bc_trans.rds"))
 ```
 
-To mitigate these violations, Box-Cox transformations were applied to all numeric predictors to improve normality and address linearity issues. Different transformations were applied to the response and predictors. For instance, the response variable `average_playtime` was log-transformed after calculating a Box-Cox $\lambda$ 0.1, as an example, an original average_playtime value of 17,612 was transformed to 9.78. Note that a constant of 1 was added to all predictors before applying the Box-Cox transformation, as it requires strictly positive values.
+To mitigate these violations, Box-Cox transformations were applied to
+all numeric predictors to improve normality and address linearity
+issues. Different transformations were applied to the response and
+predictors. For instance, the response variable `average_playtime` was
+log-transformed after calculating a Box-Cox $\lambda$ 0.1, as an
+example, an original average_playtime value of 17,612 was transformed to
+9.78. Note that a constant of 1 was added to all predictors before
+applying the Box-Cox transformation, as it requires strictly positive
+values.
 
-After transforming the model, the Variance Inflation Factor (VIF) was calculated to check for multicollinearity. Notably, `bc_positive_ratings` (log-transformed `positive_ratings`) and `bc_negative_ratings` (log-transformed `negative_ratings`) exhibited moderately high VIF values of approximately 5 and 4.5 respectively, indicating multicollinearity. This is reasonable, as a higher number of positive reviews typically corresponds to greater attention and a larger player base of a game, which can also result in more negative reviews. The pairwise scatterplots @fig-pairwise confirm this, showing a positive linear correlation between these two predictors.
+After transforming the model, the Variance Inflation Factor (VIF) was
+calculated to check for multicollinearity. Notably,
+`bc_positive_ratings` (log-transformed `positive_ratings`) and
+`bc_negative_ratings` (log-transformed `negative_ratings`) exhibited
+moderately high VIF values of approximately 5 and 4.5 respectively,
+indicating multicollinearity. This is reasonable, as a higher number of
+positive reviews typically corresponds to greater attention and a larger
+player base of a game, which can also result in more negative reviews.
+The pairwise scatterplots @fig-pairwise confirm this, showing a positive
+linear correlation between these two predictors.
 
 <!-- ## Checking for Multicollinearity -->
+
 ```{r}
 #| include: false
 #| echo: false
@@ -200,9 +329,20 @@ After transforming the model, the Variance Inflation Factor (VIF) was calculated
 
 vif(model_transformed)
 ```
-To address this issue, `bc_negative_ratings` was removed from the model, leaving the final predictors as `bc_price` (log-transformed of `price`), `bc_positive_ratings`(log-transformed of `positive_ratings`),  `bc_achievements`(log-transformed of `achievements`) and `owners`. The refined model was re-evaluated with summary statistics and residual plots. The summary of coefficients as shown in @tbl-summary will be discussed in Section @sec-conclusion. The residual diagnostics @fig-reduced show significant improvement, with a more random distribution around zero in the Residuals vs. Fitted plot and a QQ plot with better alignment to the reference line.
+
+To address this issue, `bc_negative_ratings` was removed from the model,
+leaving the final predictors as `bc_price` (log-transformed of `price`),
+`bc_positive_ratings`(log-transformed of `positive_ratings`),
+`bc_achievements`(log-transformed of `achievements`) and `owners`. The
+refined model was re-evaluated with summary statistics and residual
+plots. The summary of coefficients as shown in @tbl-summary will be
+discussed in Section @sec-conclusion. The residual diagnostics
+@fig-reduced show significant improvement, with a more random
+distribution around zero in the Residuals vs. Fitted plot and a QQ plot
+with better alignment to the reference line.
 
 <!-- ## Generatingn Residual Plots -->
+
 ```{r, fig.width=8, fig.height=6}
 #| echo: false
 #| warning: false
@@ -218,9 +358,14 @@ plot(reduced)
 
 # plot(x = x_value, y = y_value, main = "Residual vs. Fitted", xlab = "Fitted", ylab = "Residuals")
 ```
-To further simplify the model, automated selection procedures using AIC in both forward and backward directions were conducted. The procedure resulted in the same final model as described above, confirming its robustness.
+
+To further simplify the model, automated selection procedures using AIC
+in both forward and backward directions were conducted. The procedure
+resulted in the same final model as described above, confirming its
+robustness.
 
 <!-- ## AIC Model Selection -->
+
 ```{r}
 #| include: false
 #| echo: false
@@ -230,7 +375,9 @@ To further simplify the model, automated selection procedures using AIC in both 
 step_model <- stepAIC(reduced, direction = "both")
 summary(step_model)
 ```
+
 <!-- ## ANOVA Comparison between full model and reduced model -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -245,28 +392,89 @@ AIC(step_model)
 AIC(reduced)
 ```
 
-
 # Conclusion and Limitations {#sec-conclusion}
 
-In conclusion, the model demonstrates that the average playtime of a game is positively influenced by several factors, including the game's price, the number of achievements, the number of positive reviews, and the estimated number of owners. Notably, the number of owners has the most substantial effect, as shown in the model summary @tbl-summary. For instance, games with an estimated ownership level of 100,000–200,000 have a coefficient of approximately 0.81; as ownership grows by a factor of 10, the effect increases to ~1.70, and for another 10-fold increase, the effect grows to ~3.04. This indicates that games with a larger player base tend to have higher average playtime, likely due to increased community engagement and multiplayer opportunities.
+In conclusion, the model demonstrates that the average playtime of a
+game is positively influenced by several factors, including the game's
+price, the number of achievements, the number of positive reviews, and
+the estimated number of owners. Notably, the number of owners has the
+most substantial effect, as shown in the model summary @tbl-summary. For
+instance, games with an estimated ownership level of 100,000–200,000
+have a coefficient of approximately 0.81; as ownership grows by a factor
+of 10, the effect increases to \~1.70, and for another 10-fold increase,
+the effect grows to \~3.04. This indicates that games with a larger
+player base tend to have higher average playtime, likely due to
+increased community engagement and multiplayer opportunities.
 
-The positive relationship between price and average playtime is also significant. This is consistent with the notion that higher-priced games often provide more content, greater replayability, and better quality, which encourages players to spend more time playing. Additionally, players who invest more money in a game may feel a stronger obligation to "get their money's worth," resulting in longer playtime. Similarly, a greater number of positive reviews likely attracts more players and increases playtime, as positive feedback signals quality and encourages engagement.
+The positive relationship between price and average playtime is also
+significant. This is consistent with the notion that higher-priced games
+often provide more content, greater replayability, and better quality,
+which encourages players to spend more time playing. Additionally,
+players who invest more money in a game may feel a stronger obligation
+to "get their money's worth," resulting in longer playtime. Similarly, a
+greater number of positive reviews likely attracts more players and
+increases playtime, as positive feedback signals quality and encourages
+engagement.
 
-Overall, the model aligns well with practical expectations. It suggests that developers and publishers aiming to increase average playtime should focus on improving game quality, fostering positive user reviews, and building a strong player base.
+Overall, the model aligns well with practical expectations. It suggests
+that developers and publishers aiming to increase average playtime
+should focus on improving game quality, fostering positive user reviews,
+and building a strong player base.
 
-The limitations in this study is ...
+This study faces limitations primarily due to assumption violations and
+data issues. The Residuals vs. Fitted plot revealed a fanning pattern,
+indicating heteroscedasticity, while the Normal QQ Plot showed
+significant non-normality. Outliers in the response variable
+`average_playtime` suggest skewed data, despite transformations like
+Box-Cox improving stability. Multicollinearity between
+`bc_positive_ratings` and `bc_negative_ratings` required removing the
+latter, though some interdependence remains.
+
+The dataset, limited to Steam games, introduces platform-specific
+biases, restricting generalizability. Observational data prevents causal
+inference, and omitted variables, such as marketing strategies, likely
+impact playtime. Future studies should refine transformations, address
+multicollinearity more rigorously, and expand variables and platforms to
+enhance the robustness and applicability of the findings.
 
 # Ethics discussion
-<!-- The Steam Games dataset [@davis2023steam] used in this research is a collected dataset, not simulated, comprising information on over 97,000 games published on the Steam platform. The metadata is comprehensively filled out, including details such as game titles, release dates, genres, and user ratings, which enhances the dataset's usability and reliability. The source of the data is clearly described, originating from the Steam store pages and Steam API, ensuring transparency and traceability. Additionally, the dataset is hosted on Kaggle, a reputable platform for data science and machine learning, and has been vetted and used in existing literature (discussed in the introduction). This widespread use and accessibility suggest that the dataset is well-regarded and trusted by third parties, further validating its credibility through the framework outlined in the ethics module. There are no ethical concerns to report. -->
+
+The Steam Games dataset [@davis2023steam] used in this research contains
+metadata on over 97,000 games published on the Steam platform. The
+dataset is sourced transparently from Steam store pages and the Steam
+API, hosted on Kaggle, and widely used in existing literature, ensuring
+its credibility.
+
+In our analysis, we chose automated selection methods due to the
+dataset's size and complexity. Manual selection methods were not used as
+they would have been impractical and prone to human error, reducing
+consistency and reproducibility. While both methods are ethically
+equivalent when executed carefully, automated methods better align with
+the ethical principles outlined in the second ethics module by
+minimizing foreseeable risks and ensuring reliability.
+
+Avoiding blameworthy practices requires addressing foreseeability,
+avoidability, and potential errors. Automated methods allowed us to
+mitigate these risks efficiently, ensuring accountability in our
+approach. Manual methods, while suitable for smaller datasets, would
+have introduced avoidable errors and diminished reliability, which could
+be considered ethically negligent.
+
+By prioritizing virtues such as precision and accountability, we ensured
+an ethically sound methodology. Our choice was guided by practical
+considerations without compromising ethical standards, fostering robust
+and reproducible results.
 
 \newpage
 
 \appendix
 
-# Appendix {-}
+# Appendix {.unnumbered}
 
 # Model details {#sec-model-detail}
+
 ## Residuals vs each Quantitative Predictor scatterplot to check Linearity, Uncorrelated Errors, and Constant Variance
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -286,7 +494,9 @@ plot(x = data$achievements, y = y_value, main = "Residuals vs. Achievements", xl
 ```
 
 ## BoxPlot to check assumptions for Categorical Predictors
+
 See figure @fig-boc-cat
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -302,8 +512,11 @@ See figure @fig-boc-cat
 boxplot(y_value ~ data$owners , main="Residual vs Owners",
 xlab="Owners", ylab="Residuals")
 ```
+
 ## Final model results
+
 <!-- ## Fitting Reduced Model -->
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -316,7 +529,12 @@ kable(tidy(reduced), caption = "Summary of the Reduced Model")
 
 ## Problematic points detection {#sec-outlier}
 
-Checking for problematic points-leverage cutoff: ~0.006, cook's distance cutoff: ~0.961, dffits cutoff: ~0.105, dfbeta cutoff: ~0.025. Number of influential points by each case-leverage points: 216, regression outliers: 7, Cook's distance: 0, DFFITS: 211, by Beta from 0 to 7: 431, 476, 377, 394, 464, 321, 49, 0.
+Checking for problematic points-leverage cutoff: \~0.006, cook's
+distance cutoff: \~0.961, dffits cutoff: \~0.105, dfbeta cutoff:
+\~0.025. Number of influential points by each case-leverage points: 216,
+regression outliers: 7, Cook's distance: 0, DFFITS: 211, by Beta from 0
+to 7: 431, 476, 377, 394, 464, 321, 49, 0.
+
 ```{r}
 #| echo: false
 #| warning: false
