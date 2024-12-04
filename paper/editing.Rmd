@@ -1,0 +1,36 @@
+---
+title: "Editing Process Reflection"
+author: 
+  - name: "Raghav Sinha"
+  - name: "Ziqi Zhu"
+  - name: "Chris McWatt"
+date: "`r Sys.Date()`"
+date-format: long
+abstract: ""
+number-sections: false
+format:
+  pdf:
+    toc: false
+    number-sections: false
+    colorlinks: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Editing Process Reflection
+
+## Selected Editing Technique
+- **Technique:** Word Choice and Ordering (concrete nouns, strong verbs)
+- **Reason:** By carefully choosing nouns and verbs, the sentence structure becomes tighter, reducing wordiness and redundancy. This allows the writing to communicate the message more efficiently, maintaining clarity while also elevating the tone.
+- **Focus Area:** Simplicity, Elegance
+
+## Original Text
+> The gaming industry has experienced exponential growth in recent years, with millions of players engaging in various games on platforms like Steam. Understanding what influences average playtime in games is crucial for game developers, publishers, and marketers. Average playtime is a key indicator of player engagement and game success, and investigating factors that impact it can provide valuable insights into game design, pricing strategies, and marketing efforts. So our research aims to explore the factors that influence the average playtime of games available on Steam using a dataset we get from Kaggle.
+
+## Edited Text
+> The gaming industry has experienced remarkable growth in recent years, with millions of players engaging on platforms like Steam. Understanding the factors that influence average playtime is crucial for developers, publishers, and marketers alike. As a key indicator of player engagement and game success, playtime can offer valuable insights into game design, pricing, and marketing strategies. Our research aims to explore the factors that affect the average playtime of games on Steam, using a dataset sourced from Kaggle. Specifically, we will examine how variables such as price, user ratings, and other game attributes contribute to player engagement.
+
+## Reflections on the Editing Process
+- **What Went Well:** Redundant phrases were removed, and word choice and ordering were refined, resulting in a more streamlined and efficient expression of the motivations of our study without losing essential content.
+- **Challenges:** Editing for elegance and simplicity without oversimplifying or losing the technical precision needed for statistical analyses, especially when dealing with specific research terms and concepts, was a delicate task.

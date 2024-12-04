@@ -57,35 +57,7 @@ section
 
 # Introduction
 
-The gaming industry has experienced exponential growth in recent years,
-with millions of players engaging in various games on platforms like
-Steam. Understanding what influences average playtime in games is
-crucial for game developers, publishers, and marketers. Average playtime
-is a key indicator of player engagement and game success, and
-investigating factors that impact it can provide valuable insights into
-game design, pricing strategies, and marketing efforts. So our research
-aims to explore the factors that influence the average playtime of games
-available on Steam using a dataset we get from Kaggle. Specifically, we
-will investigate how variables such as price, user ratings, and other
-game characteristics contribute to player engagement, as measured by
-playtime. From some previous papers, we learned that both positive and
-negative reviews have a significant correlation with playtime, but the
-effect is more pronounced for positive reviews [@paper1]. Another paper
-found out that game pricing significantly affects player engagement,
-with lower-priced games generally seeing higher playtime [@paper2]. The
-third paper did an empirical study that also examined the influence of
-game reviews on playtime, focusing on how the number and sentiment of
-reviews can affect player engagement. It concludes that games with more
-positive reviews see increased playtime, especially if those reviews
-highlight the game’s quality [@paper3]. We found this problem suitable
-for linear regression because it allows us to model the relationship
-between average playtime (the dependent variable) and various predictors
-(price, ratings, developer, etc.). This approach helps quantify how each
-factor influences playtime, enabling a clear understanding of the impact
-of different game attributes. By fitting a linear regression model, we
-can determine which factors have statistically significant effects on
-playtime, providing actionable insights for game developers and
-marketers.
+The gaming industry has experienced remarkable growth in recent years, with millions of players engaging on platforms like Steam. Understanding the factors that influence average playtime is crucial for developers, publishers, and marketers alike. As a key indicator of player engagement and game success, playtime can offer valuable insights into game design, pricing, and marketing strategies. Our research aims to explore the factors that affect the average playtime of games on Steam, using a dataset sourced from Kaggle. Specifically, we will examine how variables such as price, user ratings, and other game attributes contribute to player engagement. Previous studies have shown that both positive and negative reviews correlate with playtime, though the effect of positive reviews is more pronounced [@paper1]. Additionally, research suggests that pricing plays a significant role, with lower-priced games generally seeing higher playtime [@paper2]. Another study highlighted the influence of review sentiment, concluding that games with more positive reviews tend to have increased playtime, especially when those reviews emphasize game quality [@paper3]. We have chosen linear regression to model the relationship between playtime (the dependent variable) and various predictors, such as price and ratings. This approach will quantify how each factor impacts playtime, providing clear insights into the influence of game attributes. By fitting this model, we aim to identify the factors with statistically significant effects on playtime, offering actionable recommendations for developers and marketers.
 
 # Methods
 
