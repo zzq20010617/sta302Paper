@@ -49,15 +49,17 @@ data <- read.csv(here::here("data/analysis_data/analysis_data.csv"))
 ```
 
 # Contributions
+Ziqi: Collaborated on the report, providing detailed explanations of methods and results. Organized files and scripts for the project.
 
-We found the dataset together, and seperate the works as follow: Ziqi:
-Introduction and data description Raghav: Ethics discussion and some
-plot in preliminary result Christophe: Most of Preliminary results
-section
+Raghav: Collaborated on the report and conducted early-stage analysis following the flowchart, including coding for each step. Addressed ethical discussions and completed the editing requirements workshop sheet.
+
+Christophe: Converted the report into a poster deliverable.
+
+Peer Review: Each member reviewed the work of others to ensure quality and consistency.
 
 # Introduction
 
-The gaming industry has experienced remarkable growth in recent years, with millions of players engaging on platforms like Steam. Understanding the factors that influence average playtime is crucial for developers, publishers, and marketers alike. As a key indicator of player engagement and game success, playtime can offer valuable insights into game design, pricing, and marketing strategies. Our research aims to explore the factors that affect the average playtime of games on Steam, using a dataset sourced from Kaggle. Specifically, we will examine how variables such as price, user ratings, and other game attributes contribute to player engagement. Previous studies have shown that both positive and negative reviews correlate with playtime, though the effect of positive reviews is more pronounced [@paper1]. Additionally, research suggests that pricing plays a significant role, with lower-priced games generally seeing higher playtime [@paper2]. Another study highlighted the influence of review sentiment, concluding that games with more positive reviews tend to have increased playtime, especially when those reviews emphasize game quality [@paper3]. We have chosen linear regression to model the relationship between playtime (the dependent variable) and various predictors, such as price and ratings. This approach will quantify how each factor impacts playtime, providing clear insights into the influence of game attributes. By fitting this model, we aim to identify the factors with statistically significant effects on playtime, offering actionable recommendations for developers and marketers.
+The gaming industry has experienced remarkable growth in recent years, with millions of players engaging on platforms like Steam. Understanding the factors that influence average playtime is crucial for developers, publishers, and marketers alike. As a key indicator of player engagement and game success, playtime can offer valuable insights into game design, pricing, and marketing strategies. Our research aims to explore the factors that affect the average playtime of games on Steam, using a dataset sourced from Kaggle [@davis2023steam]. Specifically, we will examine how variables such as price, user ratings, and other game attributes contribute to player engagement. Previous studies have shown that both positive and negative reviews correlate with playtime, though the effect of positive reviews is more pronounced [@paper1]. Additionally, research suggests that pricing plays a significant role, with lower-priced games generally seeing higher playtime [@paper2]. Another study highlighted the influence of review sentiment, concluding that games with more positive reviews tend to have increased playtime, especially when those reviews emphasize game quality [@paper3]. We have chosen linear regression to model the relationship between playtime (the dependent variable) and several predictors, including price, positive and negative ratings, the number of achievements set up in the game, and the estimated number of game owners. This approach will quantify how each factor impacts playtime, providing clear insights into the influence of game attributes. By fitting this model, we aim to identify the factors with statistically significant effects on playtime, offering actionable recommendations for developers and marketers.
 
 # Methods
 
